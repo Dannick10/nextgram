@@ -1,18 +1,21 @@
 import { auth, signIn, signOut } from "auth";
 import Link from "next/link";
+import { getUserByEmail } from "../actions";
 
 async function Navbar() {
   const session = await auth();
 
+  const user = await getUserByEmail(session?.user.email)
+
   return (
     <div className="bg-gray-800 text-white p-4 flex justify-between items-center">
-      <Link href="/" className="text-white text-lg font-bold">
-        Home
+      <Link href="/" className="text-white text-lg font-bold hover:text-zinc-200">
+        NextGram
       </Link>
       <div>
-        {session && session.user ? (
+        {user ? (
           <div className="flex gap-4 items-center">
-            <p>{session.user.name}</p>
+            <p>{user.name}</p>
             <form
               action={async () => {
                 "use server";
