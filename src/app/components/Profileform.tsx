@@ -5,6 +5,8 @@ import React from "react";
 import { useFormState } from "react-dom";
 import { updateUserProfile } from "../actions";
 import ImagePreview from "./ImagePreview";
+import FlaskMassage from "./FlaskMassage";
+import { FaPray } from "react-icons/fa";
 
 type profileForm = {
   user: User;
@@ -18,7 +20,9 @@ const Profileform = ({ user }: profileForm) => {
 
   return (
     <div>
-      {formState.message && <p> algum texto</p>}
+      {formState.message && (
+        <FlaskMassage message={formState.message} type={formState.type} />
+      )}
       <form action={formAction} encType="multipart/form-data">
         <input type="hidden" name="id" value={user.id} />
         <div>
