@@ -3,17 +3,31 @@ import { PrismaClient } from "@prisma/client";
 
 import { User } from "next-auth";
 
-import path from "path"
+import path from "path";
+import { FormStatus } from "react-dom";
 
-const prisma = new PrismaClient()
+type formState = {
+  message: string;
+  type: string;
+};
 
+const prisma = new PrismaClient();
 
-export async function getUserByEmail(email:string | null): Promise<User | null> {
-    if(!email) return null 
+export async function getUserByEmail(
+  email: string | null
+): Promise<User | null> {
+  if (!email) return null;
 
-    const user = await prisma.user.findFirst({
-        where: {email: email}
-    })
+  const user = await prisma.user.findFirst({
+    where: { email: email },
+  });
 
-    return user
+  return user;
+}
+
+export async function updateUserProfile(
+  formState: any,
+  formData: FormData
+): Promise<formState> {
+  return {message: "perfil", type: "sucess"};
 }
