@@ -4,6 +4,7 @@ import { User } from "next-auth";
 import React from "react";
 import { useFormState } from "react-dom";
 import { updateUserProfile } from "../actions";
+import ImagePreview from "./ImagePreview";
 
 type profileForm = {
   user: User;
@@ -33,6 +34,7 @@ const Profileform = ({ user }: profileForm) => {
             className="p-2 border border-zinc-300 rounded w-full text-sm placeholder: text-zinc-400"
           />
           <p>Imagem preview</p>
+          <ImagePreview/>
           <div className="flex justify-end">
             <button type="submit" className="px-4 py-2 bg-green-400 rounded cursor-pointer">Salvar</button>
           </div>
