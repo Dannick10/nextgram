@@ -23,7 +23,7 @@ async function Navbar() {
       text: "Criar postagens",
     },
     {
-      href: "/post",
+      href: "/myposts",
       text: "Minhas postagens",
     },
   ];
