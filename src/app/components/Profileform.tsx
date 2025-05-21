@@ -2,7 +2,8 @@
 
 import { User } from "next-auth";
 import React from "react";
-import { useFormState } from "react-dom";
+import { useActionState } from "react";
+
 import { updateUserProfile } from "../actions";
 import ImagePreview from "./ImagePreview";
 import FlaskMassage from "./FlaskMassage";
@@ -13,7 +14,7 @@ type profileForm = {
 };
 
 const Profileform = ({ user }: profileForm) => {
-  const [formState, formAction] = useFormState(updateUserProfile, {
+  const [formState, formAction] = useActionState(updateUserProfile, {
     message: "a",
     type: "sucess",
   });
@@ -35,6 +36,7 @@ const Profileform = ({ user }: profileForm) => {
           <input
             type="text"
             id="name"
+            name="name"
             placeholder="didite seu nome"
             defaultValue={user.name || ""}
             className="p-2 border border-zinc-300 rounded w-full text-sm placeholder: text-zinc-400"

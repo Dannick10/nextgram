@@ -19,7 +19,7 @@ async function Navbar() {
       text: "Perfil",
     },
     {
-      href: "/post",
+      href: "/post/new",
       text: "Criar postagens",
     },
     {
@@ -41,7 +41,7 @@ async function Navbar() {
           <div className="flex gap-4 items-center">
             <ul className="flex gap-4">
               {navItems.map((items, index) => (
-                <Link href={items.href}>
+                <Link href={items.href} key={index}>
                   <li className="text-white font-medium hover:text-zinc-200">
                     {items.text}
                   </li>
