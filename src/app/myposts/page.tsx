@@ -1,7 +1,7 @@
 import { auth } from 'auth'
 import { redirect } from 'next/navigation'
 import React from 'react'
-import { getUserPost } from '../actions'
+import { deletePost, getUserPost } from '../actions'
 import Link from 'next/link'
 import Image from 'next/image'
 
@@ -45,7 +45,7 @@ const page = async () => {
 
             {post.caption && <p className='mb-2 text-sm font-medium'>{post.caption}</p>}
 
-              <form action="">
+              <form action={deletePost}>
                 <input type="hidden" name='userId' value={userId} />
                 <input type="hidden" name='postId' value={post.id} />
                 <div className='flex justify-end'>

@@ -119,3 +119,24 @@ export async function getUserPost(userId: string) {
 
 
 }
+
+export async function deletePost(formData: FormData) {
+  const session = await auth()
+
+  if(!session) redirect("/")
+
+    const userId = formData.get("userId") as string
+    const postId = formData.get("postId") as string
+
+    if(session.user.userId !== userId) {
+      throw new Error("Não autorizado!")
+    }
+
+    await prisma.post.delete({
+      where: {id: postId}
+    })
+
+    revalidatePath("/myposts")
+
+    redirect("/myposts")
+}
