@@ -75,68 +75,82 @@ export async function createPost(
 
   let imageUrl = await storagedImage(imageFile);
   // save image
-  if(!imageUrl) {
-    return { message: "Aconteceu um erro ao armazenar imagem, tente novamente", type: "error" };
+  if (!imageUrl) {
+    return {
+      message: "Aconteceu um erro ao armazenar imagem, tente novamente",
+      type: "error",
+    };
   }
 
-
-    await prisma.post.create({
-      data: {
-        imageUrl,
-        caption,
-        userId: session.user.userId,
-      },
-    });
-  
+  await prisma.post.create({
+    data: {
+      imageUrl,
+      caption,
+      userId: session.user.userId,
+    },
+  });
 
   revalidatePath("/");
   redirect("/");
   return { message: "postagem criada com sucesso", type: "sucess" };
 }
 
-
-export async function getUserPost(userId: string) { 
-
+export async function getUserPost(userId: string) {
   const session = await auth();
 
-  if(!session) redirect("/")
+  if (!session) redirect("/");
 
-  if(session.user.userId !== userId) {
-    throw new Error("Não autorizado")
+  if (session.user.userId !== userId) {
+    throw new Error("Não autorizado");
   }
 
   return await prisma.post.findMany({
-    where: {userId},
+    where: { userId },
     include: {
       user: true,
       likes: true,
-      comments: true
+      comments: true,
     },
     orderBy: {
-      createdAt: "desc"
-    }
-  })
-
-
+      createdAt: "desc",
+    },
+  });
 }
 
 export async function deletePost(formData: FormData) {
-  const session = await auth()
+  const session = await auth();
 
-  if(!session) redirect("/")
+  if (!session) redirect("/");
 
-    const userId = formData.get("userId") as string
-    const postId = formData.get("postId") as string
+  const userId = formData.get("userId") as string;
+  const postId = formData.get("postId") as string;
 
-    if(session.user.userId !== userId) {
-      throw new Error("Não autorizado!")
-    }
+  if (session.user.userId !== userId) {
+    throw new Error("Não autorizado!");
+  }
 
-    await prisma.post.delete({
-      where: {id: postId}
-    })
+  await prisma.post.delete({
+    where: { id: postId },
+  });
 
-    revalidatePath("/myposts")
+  revalidatePath("/myposts");
 
-    redirect("/myposts")
+  redirect("/myposts");
+}
+
+export async function getAllPost() {
+  return await prisma.post.findMany({
+    include: {
+      user: true,
+      likes: true,
+      comments: {
+        include: {
+          user: true,
+        },
+      },
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 }
