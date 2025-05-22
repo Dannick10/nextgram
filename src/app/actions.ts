@@ -1,13 +1,10 @@
 "use server";
 
-import { Prisma } from "@prisma/client";
 import { PrismaClient } from "@prisma/client";
 import { auth } from "auth";
 
 import { User } from "next-auth";
 import { redirect } from "next/navigation";
-import { promises as fs } from "fs";
-import { FormStatus } from "react-dom";
 import { revalidatePath } from "next/cache";
 import { storagedImage } from "./utils/storaggedImage";
 

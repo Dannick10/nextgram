@@ -1,7 +1,7 @@
 import Image from "next/image";
 import { getAllPost } from "./actions";
-import { Post } from "../../types/Post";
 import { auth } from "auth";
+import Post from "./components/Post";
 
 export default async function Home() {
   const posts = await getAllPost();
@@ -24,7 +24,7 @@ export default async function Home() {
           <div>
             {posts.map((post, index) => (
               <div key={index}>
-
+                  <Post post={post} currentID={userId} />
               </div>
             ))}
           </div>
