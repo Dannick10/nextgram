@@ -7,6 +7,7 @@ import { User } from "next-auth";
 import { redirect } from "next/navigation";
 import { revalidatePath } from "next/cache";
 import { storagedImage } from "./utils/storaggedImage";
+import { verifySessionUser } from "./utils/verifySessionUser";
 
 type formState = {
   message: string;
@@ -150,4 +151,50 @@ export async function getAllPost() {
       createdAt: "desc",
     },
   });
+}
+
+export async function likePost(postId: string, userId: string) {
+  verifySessionUser(userId);
+
+  const existingLike = await prisma.like.findFirst({
+    where: {
+      postId,
+      userId,
+    },
+  });
+
+  if (existingLike) {
+    await prisma.like.delete({
+      where: {
+        id: existingLike.id,
+      },
+    });
+  } else {
+    await prisma.like.create({
+      data: {
+        postId,
+        userId,
+      },
+    });
+  }
+
+  revalidatePath("/");
+}
+
+export async function addComment(
+  postId: string,
+  userId: string,
+  content: string
+) {
+  verifySessionUser(userId);
+
+  await prisma.comment.create({
+    data: {
+      postId,
+      userId,
+      content,
+    },
+  });
+
+  revalidatePath("/");
 }
