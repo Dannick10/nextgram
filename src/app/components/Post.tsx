@@ -3,6 +3,8 @@ import React from "react";
 import { Post as PostType } from "../../../types/Post";
 import Image from "next/image";
 import LikeButton from "./post/LikeButton";
+import { FiMessageSquare } from "react-icons/fi";
+import CommentMOdal from "./post/comentButton";
 
 interface postProps {
   post: PostType;
@@ -45,8 +47,15 @@ const Post = ({ post, currentID }: postProps) => {
           postId={post.id}
           initialLikesCount={post.likes?.length || 0}
           isLiked={isLiked}
+          currentUserId={currentID}
         />
+
+        <button className="ml-5 flex items-center">
+          <FiMessageSquare className="w-7 h-7 text-gray-500 cursor-pointer" />
+          <span className="ml-1">{post.comments ? post.comments.length : 0}</span>
+        </button>
       </div>
+      <CommentMOdal/>
     </div>
   );
 };
