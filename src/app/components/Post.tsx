@@ -1,5 +1,5 @@
 "use client";
-import React from "react";
+import React, { useState } from "react";
 import { Post as PostType } from "../../../types/Post";
 import Image from "next/image";
 import LikeButton from "./post/LikeButton";
@@ -17,6 +17,8 @@ const Post = ({ post, currentID }: postProps) => {
   if (post.likes) {
     isLiked = post.likes.some((like) => like.userId === currentID);
   }
+
+  const [iscommentModalOpen, SetiscommentModalOpen] = useState(false)
 
   return (
     <div className="w-fit mx-auto mb-6 p-4 border rounded shadow-md">
@@ -50,12 +52,17 @@ const Post = ({ post, currentID }: postProps) => {
           currentUserId={currentID}
         />
 
-        <button className="ml-5 flex items-center">
+        <button className="ml-5 flex items-center" onClick={() => SetiscommentModalOpen(true)}>
           <FiMessageSquare className="w-7 h-7 text-gray-500 cursor-pointer" />
           <span className="ml-1">{post.comments ? post.comments.length : 0}</span>
         </button>
       </div>
-      <CommentMOdal/>
+      <CommentMOdal 
+      post={post}
+      currentUserId={currentID}
+      isOpen={iscommentModalOpen}
+      onRequestClose={() => SetiscommentModalOpen(false)}
+      />
     </div>
   );
 };
